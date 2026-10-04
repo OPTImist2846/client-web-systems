@@ -1,6 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-// 2 & 3. Реалізація класів та методу масштабування
 class Circle {
     radius;
     constructor(radius) {
@@ -47,8 +46,7 @@ class Triangle {
         return this.a + this.b + this.c;
     }
     getArea() {
-        // Формула Герона
-        const p = this.getPerimeter() / 2; // Півпериметр
+        const p = this.getPerimeter() / 2;
         return Math.sqrt(p * (p - this.a) * (p - this.b) * (p - this.c));
     }
     scale(factor) {
@@ -59,9 +57,9 @@ class Triangle {
 }
 // 4. Створення масиву та обчислення загальних показників
 const shapes = [
-    new Circle(5), // радіус 5
-    new Rectangle(4, 6), // 4x6
-    new Triangle(3, 4, 5) // сторони 3, 4, 5
+    new Circle(5),
+    new Rectangle(4, 6),
+    new Triangle(3, 4, 5)
 ];
 let totalArea = 0;
 let totalPerimeter = 0;
