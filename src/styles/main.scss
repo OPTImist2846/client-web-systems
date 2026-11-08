@@ -1,0 +1,14 @@
+// Власні стилі поверх Bootstrap
+$page-bg: #efefef;
+
+body {
+  background-color: $page-bg;
+}
+
+.app-title {
+  font-weight: 700;
+}
+
+.list-group-item {
+  gap: 0.75rem;
+}
