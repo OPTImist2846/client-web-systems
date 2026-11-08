@@ -12,7 +12,8 @@
     "lint:fix": "eslint . --fix",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "test": "mocha"
+    "test": "mocha",
+    "prepare": "husky"
   },
   "keywords": [],
   "author": "OPTImist2846",
@@ -32,6 +33,7 @@
     "eslint-config-prettier": "^10.1.8",
     "globals": "^17.14.0",
     "html-webpack-plugin": "^5.6.8",
+    "husky": "^9.1.7",
     "mini-css-extract-plugin": "^2.10.2",
     "mocha": "^12.0.3",
     "prettier": "^3.9.10",
