@@ -95,6 +95,19 @@ export class LibraryService {
     return { ok: true, value: user };
   }
 
+  /** Пошук книг за назвою або автором (без урахування регістру). Порожній запит — усі книги. */
+  searchBooks(query: string): Book[] {
+    const normalized = query.trim().toLocaleLowerCase();
+    if (normalized === '') {
+      return this.books.getAll();
+    }
+    return this.books.filter(
+      (book) =>
+        book.title.toLocaleLowerCase().includes(normalized) ||
+        book.author.toLocaleLowerCase().includes(normalized),
+    );
+  }
+
   /** Скільки книг зараз тримає користувач */
   countBorrowedBy(userId: string): number {
     return this.books.filter((book) => book.borrowedBy === userId).length;

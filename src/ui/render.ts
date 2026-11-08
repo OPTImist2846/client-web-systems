@@ -31,7 +31,7 @@ export class App {
     this.#notifications = notifications;
 
     this.#bookList = new BookList({
-      getBooks: () => this.#service.books.getAll(),
+      getBooks: (query) => this.#service.searchBooks(query),
       getUser: (id) => this.#service.users.findById(id),
       onBorrow: (book) => void this.#borrow(book),
       onReturn: (book) => this.#return(book),
