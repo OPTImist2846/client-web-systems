@@ -1,7 +1,9 @@
 import type { Book } from '../../models/Book';
 import type { User } from '../../models/User';
+import { paginate } from '../../utils/pagination';
 import { h } from '../dom';
 import { card } from './Card';
+import { Pagination } from './Pagination';
 
 export interface BookListOptions {
   /** Повертає книги, що відповідають пошуковому запиту */
@@ -16,11 +18,17 @@ export class BookList {
   readonly element: HTMLElement;
   readonly #options: BookListOptions;
   readonly #list: HTMLUListElement;
+  readonly #pagination: Pagination;
   #query = '';
+  #page = 1;
 
   constructor(options: BookListOptions) {
     this.#options = options;
     this.#list = h('ul', { className: 'list-group list-group-flush' });
+    this.#pagination = new Pagination('Сторінки списку книг', (page) => {
+      this.#page = page;
+      this.render();
+    });
 
     const search = h('input', {
       className: 'form-control',
@@ -32,18 +40,26 @@ export class BookList {
       on: {
         input: () => {
           this.#query = search.value;
+          this.#page = 1; // новий запит — починаємо з першої сторінки
           this.render();
         },
       },
     });
 
-    this.element = card('Список Книг', h('div', { className: 'mb-2' }, search), this.#list);
+    this.element = card(
+      'Список Книг',
+      h('div', { className: 'mb-2' }, search),
+      this.#list,
+      this.#pagination.element,
+    );
   }
 
   render(): void {
-    const books = this.#options.getBooks(this.#query);
+    const { items, page, totalPages } = paginate(this.#options.getBooks(this.#query), this.#page);
+    this.#page = page;
+    this.#pagination.render(page, totalPages);
 
-    if (books.length === 0) {
+    if (items.length === 0) {
       const text = this.#query.trim()
         ? `За запитом "${this.#query.trim()}" нічого не знайдено`
         : 'Книг поки немає';
@@ -51,7 +67,7 @@ export class BookList {
       return;
     }
 
-    this.#list.replaceChildren(...books.map((book) => this.#renderItem(book)));
+    this.#list.replaceChildren(...items.map((book) => this.#renderItem(book)));
   }
 
   #renderItem(book: Book): HTMLLIElement {

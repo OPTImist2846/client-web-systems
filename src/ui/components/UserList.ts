@@ -1,7 +1,9 @@
 import type { User } from '../../models/User';
 import { MAX_BOOKS_PER_USER } from '../../types';
+import { paginate } from '../../utils/pagination';
 import { h } from '../dom';
 import { card } from './Card';
+import { Pagination } from './Pagination';
 
 export interface UserListOptions {
   getUsers: () => User[];
@@ -13,24 +15,32 @@ export class UserList {
   readonly element: HTMLElement;
   readonly #options: UserListOptions;
   readonly #list: HTMLUListElement;
+  readonly #pagination: Pagination;
+  #page = 1;
 
   constructor(options: UserListOptions) {
     this.#options = options;
     this.#list = h('ul', { className: 'list-group list-group-flush' });
-    this.element = card('Список Користувачів', this.#list);
+    this.#pagination = new Pagination('Сторінки списку користувачів', (page) => {
+      this.#page = page;
+      this.render();
+    });
+    this.element = card('Список Користувачів', this.#list, this.#pagination.element);
   }
 
   render(): void {
-    const users = this.#options.getUsers();
+    const { items, page, totalPages } = paginate(this.#options.getUsers(), this.#page);
+    this.#page = page;
+    this.#pagination.render(page, totalPages);
 
-    if (users.length === 0) {
+    if (items.length === 0) {
       this.#list.replaceChildren(
         h('li', { className: 'list-group-item text-muted', text: 'Користувачів поки немає' }),
       );
       return;
     }
 
-    this.#list.replaceChildren(...users.map((user) => this.#renderItem(user)));
+    this.#list.replaceChildren(...items.map((user) => this.#renderItem(user)));
   }
 
   #renderItem(user: User): HTMLLIElement {
