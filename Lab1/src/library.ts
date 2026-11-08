@@ -11,6 +11,10 @@ class Book implements LibraryItem {
     constructor(public title: string, public author: string, public pages: number) {}
 
     borrow(): void {
+        if (this.isBorrowed) {
+            console.log(`Книга "${this.title}" вже позичена.`);
+            return;
+        }
         this.isBorrowed = true;
         console.log(`Книгу "${this.title}" позичено.`);
     }
@@ -22,6 +26,10 @@ class Magazine implements LibraryItem {
     constructor(public title: string, public author: string, public issueNumber: number) {}
 
     borrow(): void {
+        if (this.isBorrowed) {
+            console.log(`Журнал "${this.title}" вже позичений.`);
+            return;
+        }
         this.isBorrowed = true;
         console.log(`Журнал "${this.title}" позичено.`);
     }
@@ -33,6 +41,10 @@ class DVD implements LibraryItem {
     constructor(public title: string, public author: string, public durationMinutes: number) {}
 
     borrow(): void {
+        if (this.isBorrowed) {
+            console.log(`DVD диск "${this.title}" вже позичений.`);
+            return;
+        }
         this.isBorrowed = true;
         console.log(`DVD диск "${this.title}" позичено.`);
     }
@@ -86,5 +98,6 @@ if (foundItem) {
 }
 
 dvd1.borrow();
+dvd1.borrow(); // повторна спроба — елемент уже позичений
 
 myLibrary.printAvailableItems();
