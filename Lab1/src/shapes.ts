@@ -56,7 +56,6 @@ class Triangle implements Shape {
     }
 }
 
-// 4. Створення масиву та обчислення загальних показників
 const shapes: Shape[] = [
     new Circle(5),
     new Rectangle(4, 6),
@@ -73,8 +72,6 @@ shapes.forEach(shape => {
 
 console.log(`Загальна площа фігур: ${totalArea.toFixed(2)}`);
 console.log(`Загальний периметр фігур: ${totalPerimeter.toFixed(2)}`);
-
-// Демонстрація масштабування
 console.log("\nМасштабуємо всі фігури у 2 рази...");
 shapes.forEach(shape => shape.scale(2));
 
