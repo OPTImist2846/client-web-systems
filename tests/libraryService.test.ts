@@ -89,6 +89,33 @@ describe('LibraryService', () => {
     expect(service.borrowBook(book.id, '123')).to.include({ ok: false, error: 'user-not-found' });
   });
 
+  describe('searchBooks()', () => {
+    beforeEach(() => {
+      service.addBook({ title: 'Code Complete', author: 'Steve McConnell', year: 2004 });
+      service.addBook({ title: 'Clean Code', author: 'Роберт Мартін', year: 2008 });
+      service.addBook({ title: 'The Pragmatic Programmer', author: 'Девід Томас', year: 1999 });
+    });
+
+    it('шукає за назвою без урахування регістру', () => {
+      expect(service.searchBooks('CODE').map((b) => b.title)).to.deep.equal([
+        'Code Complete',
+        'Clean Code',
+      ]);
+    });
+
+    it('шукає за автором (кирилиця)', () => {
+      expect(service.searchBooks('мартін').map((b) => b.title)).to.deep.equal(['Clean Code']);
+    });
+
+    it('повертає всі книги для порожнього запиту', () => {
+      expect(service.searchBooks('   ')).to.have.length(3);
+    });
+
+    it('повертає порожній масив, якщо нічого не знайдено', () => {
+      expect(service.searchBooks('Гаррі Поттер')).to.deep.equal([]);
+    });
+  });
+
   it('не дозволяє додати двох користувачів з однаковим email', () => {
     addUser('Артем', 'artem@gmail.com');
     expect(service.addUser({ name: 'Інший', email: 'ARTEM@gmail.com' })).to.include({

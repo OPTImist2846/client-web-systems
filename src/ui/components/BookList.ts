@@ -4,7 +4,8 @@ import { h } from '../dom';
 import { card } from './Card';
 
 export interface BookListOptions {
-  getBooks: () => Book[];
+  /** Повертає книги, що відповідають пошуковому запиту */
+  getBooks: (query: string) => Book[];
   getUser: (id: string) => User | undefined;
   onBorrow: (book: Book) => void;
   onReturn: (book: Book) => void;
@@ -14,20 +15,38 @@ export class BookList {
   readonly element: HTMLElement;
   readonly #options: BookListOptions;
   readonly #list: HTMLUListElement;
+  #query = '';
 
   constructor(options: BookListOptions) {
     this.#options = options;
     this.#list = h('ul', { className: 'list-group list-group-flush' });
-    this.element = card('Список Книг', this.#list);
+
+    const search = h('input', {
+      className: 'form-control',
+      attrs: {
+        type: 'search',
+        placeholder: 'Пошук за назвою або автором',
+        'aria-label': 'Пошук книг за назвою або автором',
+      },
+      on: {
+        input: () => {
+          this.#query = search.value;
+          this.render();
+        },
+      },
+    });
+
+    this.element = card('Список Книг', h('div', { className: 'mb-2' }, search), this.#list);
   }
 
   render(): void {
-    const books = this.#options.getBooks();
+    const books = this.#options.getBooks(this.#query);
 
     if (books.length === 0) {
-      this.#list.replaceChildren(
-        h('li', { className: 'list-group-item text-muted', text: 'Книг поки немає' }),
-      );
+      const text = this.#query.trim()
+        ? `За запитом "${this.#query.trim()}" нічого не знайдено`
+        : 'Книг поки немає';
+      this.#list.replaceChildren(h('li', { className: 'list-group-item text-muted', text }));
       return;
     }
 
