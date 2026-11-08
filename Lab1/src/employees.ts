@@ -2,7 +2,8 @@ interface Payable {
     pay(): void;
 }
 
-abstract class Employee {
+// Кожен співробітник отримує виплати, тому Employee одразу описує контракт Payable
+abstract class Employee implements Payable {
     constructor(
         public name: string,
         public age: number,
@@ -10,6 +11,7 @@ abstract class Employee {
     ) {}
 
     abstract getAnnualBonus(): number;
+    abstract pay(): void;
 }
 
 class Developer extends Employee implements Payable {
@@ -50,10 +52,8 @@ let totalAnnualBonus = 0;
 
 console.log("--- Виплати співробітникам ---");
 employees.forEach(employee => {
-    if ('pay' in employee) {
-        (employee as Payable).pay();
-    }
-    
+    employee.pay();
+
     const bonus = employee.getAnnualBonus();
     console.log(`Бонус для ${employee.name}: ${bonus} грн`);
     totalAnnualBonus += bonus;

@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+// Кожен співробітник отримує виплати, тому Employee одразу описує контракт Payable
 class Employee {
     name;
     age;
@@ -15,7 +16,7 @@ class Developer extends Employee {
         super(name, age, salary);
     }
     getAnnualBonus() {
-        return this.salary * 0.10; // 10% бонус
+        return this.salary * 0.10;
     }
     pay() {
         console.log(`Виплачено базову зарплату розробнику ${this.name}: ${this.salary} грн`);
@@ -40,9 +41,7 @@ const employees = [
 let totalAnnualBonus = 0;
 console.log("--- Виплати співробітникам ---");
 employees.forEach(employee => {
-    if ('pay' in employee) {
-        employee.pay();
-    }
+    employee.pay();
     const bonus = employee.getAnnualBonus();
     console.log(`Бонус для ${employee.name}: ${bonus} грн`);
     totalAnnualBonus += bonus;
