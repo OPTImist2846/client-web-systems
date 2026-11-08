@@ -14,7 +14,8 @@
     "format:check": "prettier --check .",
     "test": "mocha",
     "prepare": "husky",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "deploy": "npm run build && gh-pages -d dist -e vite -m \"deploy: vite build\""
   },
   "keywords": [],
   "author": "OPTImist2846",
@@ -31,6 +32,7 @@
     "chai": "^6.3.0",
     "eslint": "^10.14.0",
     "eslint-config-prettier": "^10.1.8",
+    "gh-pages": "^6.3.0",
     "globals": "^17.14.0",
     "husky": "^9.1.7",
     "mocha": "^12.0.3",
