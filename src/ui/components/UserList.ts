@@ -6,6 +6,7 @@ import { card } from './Card';
 export interface UserListOptions {
   getUsers: () => User[];
   countBorrowed: (userId: string) => number;
+  onDelete: (user: User) => void;
 }
 
 export class UserList {
@@ -46,6 +47,12 @@ export class UserList {
           className: `badge ${borrowed >= MAX_BOOKS_PER_USER ? 'text-bg-danger' : 'text-bg-light'}`,
           text: `Книг: ${borrowed}/${MAX_BOOKS_PER_USER}`,
           attrs: { title: 'Скільки книг зараз позичено' },
+        }),
+        h('button', {
+          className: 'btn btn-outline-danger btn-sm',
+          text: 'Видалити',
+          attrs: { type: 'button', 'aria-label': `Видалити користувача ${user.name}` },
+          on: { click: () => this.#options.onDelete(user) },
         }),
       ),
     );

@@ -1,4 +1,5 @@
 import type { Book } from '../models/Book';
+import type { User } from '../models/User';
 import type { BookInput } from '../models/interfaces/IBook';
 import type { UserInput } from '../models/interfaces/IUser';
 import type { LibraryService } from '../services/LibraryService';
@@ -35,11 +36,13 @@ export class App {
       getUser: (id) => this.#service.users.findById(id),
       onBorrow: (book) => void this.#borrow(book),
       onReturn: (book) => this.#return(book),
+      onDelete: (book) => void this.#deleteBook(book),
     });
 
     this.#userList = new UserList({
       getUsers: () => this.#service.users.getAll(),
       countBorrowed: (userId) => this.#service.countBorrowedBy(userId),
+      onDelete: (user) => void this.#deleteUser(user),
     });
   }
 
@@ -142,6 +145,38 @@ export class App {
       this.#notifications.success(`${book.toString()} повернуто.`, 'modal', 'Закрити');
     } else {
       this.#notifications.error(result.message);
+    }
+    this.#refresh();
+  }
+
+  async #deleteBook(book: Book): Promise<void> {
+    const confirmed = await Modal.confirm(`Видалити книгу ${book.toString()}?`, {
+      confirmLabel: 'Видалити',
+      danger: true,
+    });
+    if (!confirmed) return;
+
+    const result = this.#service.removeBook(book.id);
+    if (result.ok) {
+      this.#notifications.success(`Книгу "${book.title}" видалено.`);
+    } else {
+      this.#notifications.warning(result.message, 'modal', 'Зрозуміло!');
+    }
+    this.#refresh();
+  }
+
+  async #deleteUser(user: User): Promise<void> {
+    const confirmed = await Modal.confirm(`Видалити користувача ${user.toString()}?`, {
+      confirmLabel: 'Видалити',
+      danger: true,
+    });
+    if (!confirmed) return;
+
+    const result = this.#service.removeUser(user.id);
+    if (result.ok) {
+      this.#notifications.success(`Користувача ${user.name} видалено.`);
+    } else {
+      this.#notifications.warning(result.message, 'modal', 'Зрозуміло!');
     }
     this.#refresh();
   }
