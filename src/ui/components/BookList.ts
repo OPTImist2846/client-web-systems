@@ -9,6 +9,7 @@ export interface BookListOptions {
   getUser: (id: string) => User | undefined;
   onBorrow: (book: Book) => void;
   onReturn: (book: Book) => void;
+  onDelete: (book: Book) => void;
 }
 
 export class BookList {
@@ -80,7 +81,17 @@ export class BookList {
         borrower &&
           h('div', { className: 'small text-muted', text: `Позичив(-ла): ${borrower.name}` }),
       ),
-      h('div', { className: 'd-flex gap-2 flex-shrink-0' }, actionButton),
+      h(
+        'div',
+        { className: 'd-flex gap-2 flex-shrink-0' },
+        actionButton,
+        h('button', {
+          className: 'btn btn-outline-danger btn-sm',
+          text: 'Видалити',
+          attrs: { type: 'button', 'aria-label': `Видалити книгу ${book.title}` },
+          on: { click: () => this.#options.onDelete(book) },
+        }),
+      ),
     );
   }
 }
