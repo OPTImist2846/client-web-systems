@@ -1,0 +1,76 @@
+import type { BookInput } from '../models/interfaces/IBook';
+import type { UserInput } from '../models/interfaces/IUser';
+import type { FieldErrors } from '../types';
+
+/** Валідація даних форм. Усі функції чисті: не працюють з DOM і легко тестуються. */
+export namespace Validation {
+  /** null — значення коректне, рядок — текст помилки для користувача */
+  export type Check = string | null;
+
+  export const Messages = {
+    required: "Це поле є обов'язковим",
+    digitsOnly: 'Поле може містити лише цифри',
+    yearFormat: 'Рік має складатися з 4 цифр (наприклад, 2008)',
+    yearRange: (max: number): string => `Рік має бути в межах 1000–${max}`,
+    email: 'Введіть коректний email (наприклад, name@gmail.com)',
+  } as const;
+
+  /** Лише цифри, без пробілів і знаків */
+  export const DIGITS_PATTERN = /^\d+$/;
+  /** Рік: рівно 4 цифри, перша — не нуль (1000–9999) */
+  export const YEAR_PATTERN = /^[1-9]\d{3}$/;
+  export const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+
+  export function required(value: string): Check {
+    return value.trim() === '' ? Messages.required : null;
+  }
+
+  /** id користувача — обов'язковий і складається лише з цифр */
+  export function userId(value: string): Check {
+    return required(value) ?? (DIGITS_PATTERN.test(value.trim()) ? null : Messages.digitsOnly);
+  }
+
+  /** Рік видання: лише цифри, формат року, не пізніше поточного року */
+  export function year(value: string, currentYear: number = new Date().getFullYear()): Check {
+    const trimmed = value.trim();
+    if (trimmed === '') return Messages.required;
+    if (!DIGITS_PATTERN.test(trimmed)) return Messages.digitsOnly;
+    if (!YEAR_PATTERN.test(trimmed)) return Messages.yearFormat;
+    if (Number(trimmed) > currentYear) return Messages.yearRange(currentYear);
+    return null;
+  }
+
+  export function email(value: string): Check {
+    return required(value) ?? (EMAIL_PATTERN.test(value.trim()) ? null : Messages.email);
+  }
+
+  /**
+   * Перевіряє всі поля форми за набором правил.
+   * Generic: працює з будь-якою формою, ключі правил строго відповідають полям T.
+   */
+  export function validate<T extends object>(
+    input: T,
+    rules: { [K in keyof T]: (value: T[K]) => Check },
+  ): FieldErrors<T> {
+    const errors: FieldErrors<T> = {};
+    (Object.keys(rules) as (keyof T)[]).forEach((field) => {
+      const error = rules[field](input[field]);
+      if (error !== null) {
+        errors[field] = error;
+      }
+    });
+    return errors;
+  }
+
+  export function validateBook(input: BookInput): FieldErrors<BookInput> {
+    return validate(input, { title: required, author: required, year: (value) => year(value) });
+  }
+
+  export function validateUser(input: UserInput): FieldErrors<UserInput> {
+    return validate(input, { name: required, email });
+  }
+
+  export function isValid<T>(errors: FieldErrors<T>): boolean {
+    return Object.keys(errors).length === 0;
+  }
+}

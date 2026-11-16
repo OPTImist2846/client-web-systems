@@ -1,0 +1,53 @@
+{
+  "name": "library-app",
+  "version": "1.0.0",
+  "description": "Система управління бібліотекою (Лабораторна робота №2)",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "webpack serve --mode development",
+    "build": "webpack --mode production",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint . --max-warnings=0",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "test": "mocha",
+    "prepare": "husky",
+    "deploy": "npm run build && gh-pages -d dist -e webpack -m \"deploy: webpack build\""
+  },
+  "keywords": [],
+  "author": "OPTImist2846",
+  "license": "ISC",
+  "dependencies": {
+    "@popperjs/core": "^2.11.8",
+    "bootstrap": "^5.3.8"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@types/bootstrap": "^5.2.11",
+    "@types/chai": "^5.2.3",
+    "@types/mocha": "^10.0.10",
+    "chai": "^6.3.0",
+    "css-loader": "^7.1.5",
+    "eslint": "^10.14.0",
+    "eslint-config-prettier": "^10.1.8",
+    "gh-pages": "^6.3.0",
+    "globals": "^17.14.0",
+    "html-webpack-plugin": "^5.6.8",
+    "husky": "^9.1.7",
+    "mini-css-extract-plugin": "^2.10.2",
+    "mocha": "^12.0.3",
+    "prettier": "^3.9.10",
+    "sass": "^1.108.1",
+    "sass-loader": "^17.1.0",
+    "style-loader": "^4.0.0",
+    "ts-loader": "^9.6.2",
+    "tsx": "^4.23.15",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.72.1",
+    "webpack": "^5.112.2",
+    "webpack-cli": "^7.3.1",
+    "webpack-dev-server": "^6.1.0"
+  }
+}
