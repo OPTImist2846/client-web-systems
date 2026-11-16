@@ -22,7 +22,6 @@ function isTopping(value: string): value is Topping {
     return value in TOPPING_PRICES;
 }
 
-// Розрахунок вартості: розмір + одна або декілька начинок + (опційно) маршмелоу
 function calculateIceCreamCost(size: Size, toppings: Topping[], withMarshmallow: boolean = false): number {
     if (toppings.length === 0) {
         throw new Error("Потрібно вибрати мінімум одну начинку.");
@@ -39,7 +38,6 @@ function askSize(): Size | null {
     return isSize(input) ? input : null;
 }
 
-// Користувач вводить одну або кілька начинок через кому, напр.: "шоколад, ягоди"
 function askToppings(): Topping[] | null {
     const input: string = prompt(
         "Начинки через кому (шоколад - 5 грн, карамель - 6 грн, ягоди - 10 грн):"

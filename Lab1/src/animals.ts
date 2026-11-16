@@ -1,4 +1,3 @@
-// 1. Створення інтерфейсу з обов'язковими та опціональними властивостями
 interface Animal {
     name: string;
     weight: number;

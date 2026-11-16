@@ -2,10 +2,6 @@ import type { Page } from '../types';
 
 export const DEFAULT_PAGE_SIZE = 5;
 
-/**
- * Повертає одну сторінку списку. Номер сторінки починається з 1 і автоматично
- * обмежується допустимим діапазоном (наприклад, після видалення останнього елемента сторінки).
- */
 export function paginate<T>(
   items: readonly T[],
   page: number,

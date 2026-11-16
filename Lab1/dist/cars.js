@@ -1,23 +1,22 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 class Car {
-    brand; // марку можна читати будь-де
-    year; // доступно лише в Car та похідних класах
-    vinCode; // доступно лише всередині Car
+    brand;
+    year;
+    vinCode;
     constructor(brand, year, vinCode) {
         this.brand = brand;
         this.year = year;
         this.vinCode = vinCode;
     }
-    // Похідні класи не мають прямого доступу до vinCode, лише через цей метод
     getVin() {
         return this.vinCode;
     }
 }
 class Toyota extends Car {
-    model; // публічна інформація про модель
-    isHybrid; // характеристика, доступна і нащадкам Toyota
-    dealerPrice; // внутрішня ціна дилера — лише для цього класу
+    model;
+    isHybrid;
+    dealerPrice;
     constructor(model, year, vinCode, isHybrid, dealerPrice) {
         super("Toyota", year, vinCode);
         this.model = model;
@@ -32,7 +31,7 @@ class Toyota extends Car {
 class BMW extends Car {
     model;
     mSportPackage;
-    serviceKey; // секретний сервісний ключ
+    serviceKey;
     constructor(model, year, vinCode, mSportPackage, serviceKey) {
         super("BMW", year, vinCode);
         this.model = model;
@@ -47,7 +46,7 @@ class BMW extends Car {
 class Audi extends Car {
     model;
     quattro;
-    mileage; // пробіг змінюється лише методами класу
+    mileage;
     constructor(model, year, vinCode, quattro, mileage) {
         super("Audi", year, vinCode);
         this.model = model;
@@ -78,6 +77,4 @@ console.log("\n--- Моделі Audi ---");
 audi1.displayInfo();
 audi2.drive(300);
 audi2.displayInfo();
-// console.log(toyota1.year);         // Помилка: year — protected
-// console.log(bmw1.serviceKey);      // Помилка: serviceKey — private
 //# sourceMappingURL=cars.js.map

@@ -1,6 +1,5 @@
 import { h, type Child } from '../dom';
 
-/** Біла картка-секція з заголовком, як у макеті */
 export function card(title: string, ...children: Child[]): HTMLElement {
   return h(
     'section',

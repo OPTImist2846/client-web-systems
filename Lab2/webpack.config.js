@@ -5,25 +5,17 @@ import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-/**
- * @param {Record<string, unknown>} _env
- * @param {{ mode?: 'development' | 'production' }} argv
- * @returns {import('webpack').Configuration}
- */
 export default (_env, argv) => {
   const isProduction = argv.mode === 'production';
-  // У dev — інжект стилів у <style> (швидкий HMR), у prod — окремий .css файл
   const styleLoader = isProduction ? MiniCssExtractPlugin.loader : 'style-loader';
 
   return {
-    // Точка входу — збирає весь застосунок
     entry: './src/index.ts',
 
-    // Вихідна директорія та імена бандлів (contenthash — для кешування в браузері)
     output: {
       path: path.resolve(__dirname, 'dist'),
       filename: isProduction ? 'js/[name].[contenthash:8].js' : 'js/[name].js',
-      publicPath: 'auto', // відносні шляхи — працює і на localhost, і на gh-pages
+      publicPath: 'auto',
       clean: true,
     },
 
@@ -35,18 +27,15 @@ export default (_env, argv) => {
 
     module: {
       rules: [
-        // TypeScript → JavaScript
         {
           test: /\.ts$/,
           use: 'ts-loader',
           exclude: /node_modules/,
         },
-        // Стилі Bootstrap (.css)
         {
           test: /\.css$/,
           use: [styleLoader, 'css-loader'],
         },
-        // Власні стилі (.scss) → CSS
         {
           test: /\.s[ac]ss$/,
           use: [styleLoader, 'css-loader', 'sass-loader'],

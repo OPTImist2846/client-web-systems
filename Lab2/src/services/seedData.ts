@@ -1,6 +1,5 @@
 import type { NewBook } from './LibraryService';
 
-/** Книги з макету — додаються лише при першому запуску, коли в LocalStorage ще нічого немає */
 export const SEED_BOOKS: readonly NewBook[] = [
   { title: 'Code Complete', author: 'Steve McConnell', year: 2004 },
   {

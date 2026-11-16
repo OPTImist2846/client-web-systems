@@ -99,6 +99,6 @@ else {
     console.log("Елемент не знайдено.");
 }
 dvd1.borrow();
-dvd1.borrow(); // повторна спроба — елемент уже позичений
+dvd1.borrow();
 myLibrary.printAvailableItems();
 //# sourceMappingURL=library.js.map

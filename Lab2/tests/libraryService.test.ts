@@ -3,7 +3,6 @@ import { LibraryService } from '../src/services/LibraryService';
 import { Storage, type KeyValueStore } from '../src/services/Storage';
 import { MAX_BOOKS_PER_USER } from '../src/types';
 
-/** Проста in-memory заміна localStorage для тестів */
 class MemoryStore implements KeyValueStore {
   readonly data = new Map<string, string>();
 

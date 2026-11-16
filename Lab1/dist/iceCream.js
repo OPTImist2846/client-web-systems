@@ -16,7 +16,6 @@ function isSize(value) {
 function isTopping(value) {
     return value in TOPPING_PRICES;
 }
-// Розрахунок вартості: розмір + одна або декілька начинок + (опційно) маршмелоу
 function calculateIceCreamCost(size, toppings, withMarshmallow = false) {
     if (toppings.length === 0) {
         throw new Error("Потрібно вибрати мінімум одну начинку.");
@@ -29,7 +28,6 @@ function askSize() {
     const input = (prompt("Розмір (маленький - 10 грн, великий - 25 грн):") ?? "").trim().toLowerCase();
     return isSize(input) ? input : null;
 }
-// Користувач вводить одну або кілька начинок через кому, напр.: "шоколад, ягоди"
 function askToppings() {
     const input = prompt("Начинки через кому (шоколад - 5 грн, карамель - 6 грн, ягоди - 10 грн):") ?? "";
     const values = input

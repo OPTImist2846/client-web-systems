@@ -6,7 +6,6 @@ import { card } from './Card';
 import { Pagination } from './Pagination';
 
 export interface BookListOptions {
-  /** Повертає книги, що відповідають пошуковому запиту */
   getBooks: (query: string) => Book[];
   getUser: (id: string) => User | undefined;
   onBorrow: (book: Book) => void;
@@ -40,7 +39,7 @@ export class BookList {
       on: {
         input: () => {
           this.#query = search.value;
-          this.#page = 1; // новий запит — починаємо з першої сторінки
+          this.#page = 1;
           this.render();
         },
       },

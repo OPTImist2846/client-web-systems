@@ -1,10 +1,5 @@
-/** Мінімальний інтерфейс сховища — його реалізує window.localStorage і тестові заглушки */
 export type KeyValueStore = Pick<globalThis.Storage, 'getItem' | 'setItem' | 'removeItem'>;
 
-/**
- * Обгортка над LocalStorage: зберігає дані як JSON під ключами з префіксом,
- * тому clear() видаляє лише дані цього застосунку, а не весь localStorage.
- */
 export class Storage {
   readonly #store: KeyValueStore;
   readonly #prefix: string;
@@ -24,7 +19,6 @@ export class Storage {
     this.#keys.add(key);
   }
 
-  /** Повертає збережене значення або fallback, якщо ключа немає чи JSON пошкоджений */
   load<T>(key: string, fallback: T): T {
     const raw = this.#store.getItem(this.#fullKey(key));
     if (raw === null) {
@@ -47,7 +41,6 @@ export class Storage {
     this.#keys.delete(key);
   }
 
-  /** Видаляє всі ключі, які цей екземпляр зберігав або читав */
   clear(): void {
     this.#keys.forEach((key) => this.#store.removeItem(this.#fullKey(key)));
     this.#keys.clear();

@@ -9,7 +9,6 @@ const TEXT_CLASS: Record<NotificationLevel, string> = {
   danger: 'text-bg-danger',
 };
 
-/** Короткі спливаючі сповіщення у правому верхньому куті */
 export class Toasts {
   readonly element: HTMLDivElement;
 

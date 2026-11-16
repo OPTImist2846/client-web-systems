@@ -1,4 +1,3 @@
-/** Дочірній вузол для h(): елемент, текст або "нічого" (зручно для умовного рендеру) */
 export type Child = Node | string | number | null | undefined | false;
 
 type EventHandlers = {
@@ -15,10 +14,6 @@ export interface ElementOptions {
 const isRenderable = (child: Child): child is Node | string | number =>
   child !== null && child !== undefined && child !== false;
 
-/**
- * Рендер-функція: створює DOM-елемент із класами, атрибутами, обробниками подій і дітьми.
- * Generic по тегу: h('input') повертає HTMLInputElement, h('button') — HTMLButtonElement.
- */
 export function h<K extends keyof HTMLElementTagNameMap>(
   tag: K,
   options: ElementOptions = {},

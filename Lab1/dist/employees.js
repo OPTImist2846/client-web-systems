@@ -1,6 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-// Кожен співробітник отримує виплати, тому Employee одразу описує контракт Payable
 class Employee {
     name;
     age;

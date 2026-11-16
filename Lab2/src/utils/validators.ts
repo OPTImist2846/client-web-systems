@@ -2,9 +2,7 @@ import type { BookInput } from '../models/interfaces/IBook';
 import type { UserInput } from '../models/interfaces/IUser';
 import type { FieldErrors } from '../types';
 
-/** Валідація даних форм. Усі функції чисті: не працюють з DOM і легко тестуються. */
 export namespace Validation {
-  /** null — значення коректне, рядок — текст помилки для користувача */
   export type Check = string | null;
 
   export const Messages = {
@@ -15,9 +13,7 @@ export namespace Validation {
     email: 'Введіть коректний email (наприклад, name@gmail.com)',
   } as const;
 
-  /** Лише цифри, без пробілів і знаків */
   export const DIGITS_PATTERN = /^\d+$/;
-  /** Рік: рівно 4 цифри, перша — не нуль (1000–9999) */
   export const YEAR_PATTERN = /^[1-9]\d{3}$/;
   export const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
@@ -25,12 +21,10 @@ export namespace Validation {
     return value.trim() === '' ? Messages.required : null;
   }
 
-  /** id користувача — обов'язковий і складається лише з цифр */
   export function userId(value: string): Check {
     return required(value) ?? (DIGITS_PATTERN.test(value.trim()) ? null : Messages.digitsOnly);
   }
 
-  /** Рік видання: лише цифри, формат року, не пізніше поточного року */
   export function year(value: string, currentYear: number = new Date().getFullYear()): Check {
     const trimmed = value.trim();
     if (trimmed === '') return Messages.required;
@@ -44,10 +38,6 @@ export namespace Validation {
     return required(value) ?? (EMAIL_PATTERN.test(value.trim()) ? null : Messages.email);
   }
 
-  /**
-   * Перевіряє всі поля форми за набором правил.
-   * Generic: працює з будь-якою формою, ключі правил строго відповідають полям T.
-   */
   export function validate<T extends object>(
     input: T,
     rules: { [K in keyof T]: (value: T[K]) => Check },

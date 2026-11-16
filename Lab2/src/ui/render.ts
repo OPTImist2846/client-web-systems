@@ -14,10 +14,6 @@ import { UserForm } from './components/UserForm';
 import { UserList } from './components/UserList';
 import { h } from './dom';
 
-/**
- * Кореневий UI-компонент: монтує всі секції в #app, пов'язує їх із сервісами
- * та оновлює списки після кожної зміни стану.
- */
 export class App {
   readonly #root: HTMLElement;
   readonly #service: LibraryService;

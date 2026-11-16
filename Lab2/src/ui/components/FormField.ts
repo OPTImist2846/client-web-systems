@@ -7,7 +7,6 @@ export interface FieldConfig {
   maxLength?: number;
 }
 
-/** Поле вводу з місцем під повідомлення про помилку (Bootstrap .is-invalid / .invalid-feedback) */
 export class FormField {
   readonly element: HTMLDivElement;
   readonly input: HTMLInputElement;
@@ -29,7 +28,6 @@ export class FormField {
         autocomplete: 'off',
         ...(config.maxLength && { maxlength: config.maxLength }),
       },
-      // Помилка зникає, щойно користувач починає виправляти поле
       on: { input: () => this.setError(undefined) },
     });
 

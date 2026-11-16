@@ -2,7 +2,6 @@ interface Payable {
     pay(): void;
 }
 
-// Кожен співробітник отримує виплати, тому Employee одразу описує контракт Payable
 abstract class Employee implements Payable {
     constructor(
         public name: string,

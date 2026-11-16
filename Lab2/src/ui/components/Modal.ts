@@ -13,7 +13,6 @@ export interface PromptOptions {
   confirmLabel?: string;
   cancelLabel?: string;
   inputMode?: 'text' | 'numeric';
-  /** Повертає текст помилки або null, якщо значення коректне */
   validate?: (value: string) => string | null;
 }
 
@@ -28,16 +27,10 @@ interface ModalContent {
   body: Child[];
   footer: Child[];
   focus?: HTMLElement;
-  /** Викликається при закритті хрестиком, Esc або кліком повз вікно */
   onDismiss: () => void;
 }
 
 type ModalBuilder<R> = (close: (result: R) => void) => ModalContent;
-
-/*
- * Модальні вікна на базі Bootstrap Modal (замість заборонених alert/prompt/confirm).
- * Вікна показуються по черзі: наступне відкривається лише після закриття попереднього.
- */
 
 let queue: Promise<unknown> = Promise.resolve();
 
@@ -126,7 +119,6 @@ function enqueue<R>(build: ModalBuilder<R>, dismissValue: R): Promise<R> {
   return result;
 }
 
-/** Повідомлення з однією кнопкою */
 function message(text: string, options: MessageOptions = {}): Promise<boolean> {
   const level = options.level ?? 'info';
   return enqueue<boolean>((close) => {
@@ -140,7 +132,6 @@ function message(text: string, options: MessageOptions = {}): Promise<boolean> {
   }, false);
 }
 
-/** Запит значення у користувача. Повертає введений рядок або null, якщо скасовано. */
 function prompt(options: PromptOptions): Promise<string | null> {
   return enqueue<string | null>((close) => {
     const feedback = h('div', { className: 'invalid-feedback' });
@@ -186,7 +177,6 @@ function prompt(options: PromptOptions): Promise<string | null> {
   }, null);
 }
 
-/** Підтвердження дії. Повертає true, якщо користувач погодився. */
 function confirm(text: string, options: ConfirmOptions = {}): Promise<boolean> {
   return enqueue<boolean>((close) => {
     const confirmButton = button(

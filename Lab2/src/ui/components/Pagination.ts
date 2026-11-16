@@ -1,6 +1,5 @@
 import { h } from '../dom';
 
-/** Навігація між сторінками списку (Bootstrap .pagination). Ховається, якщо сторінка одна. */
 export class Pagination {
   readonly element: HTMLElement;
   readonly #list: HTMLUListElement;
