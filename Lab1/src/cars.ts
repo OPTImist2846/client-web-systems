@@ -1,7 +1,7 @@
 abstract class Car {
-    public brand: string;        // марку можна читати будь-де
-    protected year: number;      // доступно лише в Car та похідних класах
-    private vinCode: string;     // доступно лише всередині Car
+    public brand: string;
+    protected year: number;
+    private vinCode: string;
 
     constructor(brand: string, year: number, vinCode: string) {
         this.brand = brand;
@@ -9,7 +9,6 @@ abstract class Car {
         this.vinCode = vinCode;
     }
 
-    // Похідні класи не мають прямого доступу до vinCode, лише через цей метод
     protected getVin(): string {
         return this.vinCode;
     }
@@ -18,9 +17,9 @@ abstract class Car {
 }
 
 class Toyota extends Car {
-    public model: string;            // публічна інформація про модель
-    protected isHybrid: boolean;     // характеристика, доступна і нащадкам Toyota
-    private dealerPrice: number;     // внутрішня ціна дилера — лише для цього класу
+    public model: string;
+    protected isHybrid: boolean;
+    private dealerPrice: number;
 
     constructor(model: string, year: number, vinCode: string, isHybrid: boolean, dealerPrice: number) {
         super("Toyota", year, vinCode);
@@ -40,7 +39,7 @@ class Toyota extends Car {
 class BMW extends Car {
     public model: string;
     protected mSportPackage: boolean;
-    private serviceKey: string;      // секретний сервісний ключ
+    private serviceKey: string;
 
     constructor(model: string, year: number, vinCode: string, mSportPackage: boolean, serviceKey: string) {
         super("BMW", year, vinCode);
@@ -60,7 +59,7 @@ class BMW extends Car {
 class Audi extends Car {
     public model: string;
     protected quattro: boolean;
-    private mileage: number;         // пробіг змінюється лише методами класу
+    private mileage: number;
 
     constructor(model: string, year: number, vinCode: string, quattro: boolean, mileage: number) {
         super("Audi", year, vinCode);
@@ -102,6 +101,3 @@ console.log("\n--- Моделі Audi ---");
 audi1.displayInfo();
 audi2.drive(300);
 audi2.displayInfo();
-
-// console.log(toyota1.year);         // Помилка: year — protected
-// console.log(bmw1.serviceKey);      // Помилка: serviceKey — private

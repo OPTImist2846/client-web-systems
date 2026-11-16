@@ -3,7 +3,6 @@ import { h } from '../dom';
 import { card } from './Card';
 import { FormField, type FieldConfig } from './FormField';
 
-/** Будь-яка форма, усі поля якої — рядки */
 export type FormValues<T> = { [K in keyof T]: string };
 
 export interface EntityFormOptions<T extends FormValues<T>> {
@@ -11,14 +10,9 @@ export interface EntityFormOptions<T extends FormValues<T>> {
   submitLabel: string;
   fields: { [K in keyof T]: FieldConfig };
   validate: (input: T) => FieldErrors<T>;
-  /** Обробка коректних даних. Повертає помилки (наприклад, "email вже існує"). */
   onSubmit: (input: T) => FieldErrors<T>;
 }
 
-/**
- * Узагальнена форма створення сутності: рендерить поля, валідує їх і показує помилки.
- * BookForm і UserForm — це EntityForm<BookInput> та EntityForm<UserInput>.
- */
 export class EntityForm<T extends FormValues<T>> {
   readonly element: HTMLElement;
   readonly #fields: Record<keyof T, FormField>;

@@ -66,7 +66,6 @@ export class Book implements IBook {
     return this.status === BookStatus.Borrowed;
   }
 
-  /** Позначає книгу як позичену вказаним користувачем */
   borrow(userId: string): void {
     if (this.isBorrowed) {
       throw new Error(`Книга "${this.#title}" вже позичена.`);
@@ -74,7 +73,6 @@ export class Book implements IBook {
     this.#borrowedBy = userId;
   }
 
-  /** Повертає книгу до бібліотеки */
   return(): void {
     if (!this.isBorrowed) {
       throw new Error(`Книга "${this.#title}" не була позичена.`);

@@ -20,10 +20,6 @@ export type RemoveBookError = 'book-not-found' | 'book-borrowed';
 export type RemoveUserError = 'user-not-found' | 'user-has-books';
 export type AddUserError = 'email-taken';
 
-/**
- * Бізнес-логіка бібліотеки: облік книг і користувачів, позичання/повернення,
- * збереження стану в LocalStorage після кожної зміни. DOM не використовує.
- */
 export class LibraryService {
   readonly books: Library<Book>;
   readonly users: Library<User>;
@@ -35,7 +31,6 @@ export class LibraryService {
     this.users = new Library(storage.load<IUser[]>(USERS_KEY, []).map(User.fromJSON));
   }
 
-  /** Чи є в сховищі вже збережені дані (використовується для початкового заповнення) */
   get hasSavedData(): boolean {
     return this.#storage.has(BOOKS_KEY) || this.#storage.has(USERS_KEY);
   }
@@ -95,7 +90,6 @@ export class LibraryService {
     return { ok: true, value: user };
   }
 
-  /** Пошук книг за назвою або автором (без урахування регістру). Порожній запит — усі книги. */
   searchBooks(query: string): Book[] {
     const normalized = query.trim().toLocaleLowerCase();
     if (normalized === '') {
@@ -108,7 +102,6 @@ export class LibraryService {
     );
   }
 
-  /** Скільки книг зараз тримає користувач */
   countBorrowedBy(userId: string): number {
     return this.books.filter((book) => book.borrowedBy === userId).length;
   }

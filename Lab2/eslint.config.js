@@ -1,4 +1,3 @@
-// ESLint 9+ використовує "flat config" (eslint.config.js) замість застарілого .eslintrc.json
 import { defineConfig } from 'eslint/config';
 import js from '@eslint/js';
 import tseslint from 'typescript-eslint';
@@ -20,7 +19,6 @@ export default defineConfig(
       globals: globals.browser,
     },
     rules: {
-      // За завданням Validation має бути простором імен (namespace)
       '@typescript-eslint/no-namespace': 'off',
       '@typescript-eslint/explicit-function-return-type': ['warn', { allowExpressions: true }],
       '@typescript-eslint/consistent-type-imports': 'error',
@@ -48,6 +46,5 @@ export default defineConfig(
     },
   },
 
-  // Вимикає правила ESLint, що конфліктують із форматуванням Prettier — має бути останнім
   prettier,
 );

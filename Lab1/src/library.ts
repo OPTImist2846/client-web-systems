@@ -98,6 +98,6 @@ if (foundItem) {
 }
 
 dvd1.borrow();
-dvd1.borrow(); // повторна спроба — елемент уже позичений
+dvd1.borrow();
 
 myLibrary.printAvailableItems();
